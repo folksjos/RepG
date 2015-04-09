@@ -14,7 +14,7 @@ import java.util.prefs.Preferences;
  * Due to limitations in the length of parameter values, the number of paths stored may be smaller than
  * the maximum number of entries.
  * @author phooky
- *
+ **************
  */
 public class MRUList implements Iterable<String> {
 
