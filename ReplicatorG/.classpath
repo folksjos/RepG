@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="classes" path="src"/>
+	<classpathentry kind="var" path="JRE_LIB" rootpath="JRE_SRCROOT" sourcepath="JRE_SRC"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/macosx/jarbundler-2.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/RXTXcomm.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/filedrop.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/j3dcore.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/j3dutils.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/jcommon-1.0.16.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/miglayout-3.7.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/mrj.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/quaqua.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/twitter4j-2.0.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Desktop/ReplicatorG/build/shared/lib/vecmath.jar"/>
+	<classpathentry kind="con" path="C:/System/Library/Java"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
