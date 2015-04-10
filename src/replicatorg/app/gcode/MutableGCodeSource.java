@@ -113,6 +113,12 @@ public class MutableGCodeSource implements GCodeSource {
 	/// writes the gcode to file, no path expansion or file testing happens before write attempt.
 	public void writeToFile(File f) {
 
+		File file = new File("Edit.gcode");
+		if (file.exists()) {
+		    file.delete();
+		} else {
+		}
+		
 		try {
 			FileWriter bwr = new FileWriter(f);
 
@@ -123,6 +129,18 @@ public class MutableGCodeSource implements GCodeSource {
 		} catch (IOException e) {
 			Base.logger.log(Level.SEVERE, "Could not write MutableGCodeSource to file.", e);
 		}
+		try {
+			
+			FileWriter bwr = new FileWriter("Code.gcode");
+
+			for (String s : source) {
+				bwr.write(s +"\r"+"\n");
+			}
+			bwr.close();
+		} catch (IOException e) {
+			Base.logger.log(Level.SEVERE, "Could not write MutableGCodeSource to file.", e);
+		}
+		
 	}
 	
 //	/**

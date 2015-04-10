@@ -26,7 +26,8 @@
  */
 
 package replicatorg.app.ui;
-
+import java.io.*;
+import java.lang.Runtime;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -789,6 +790,7 @@ ToolpathGenerator.GeneratorListener
 		}
 	}
 
+	
 	protected JMenu buildFileMenu() {
 		JMenuItem item;
 		JMenu menu = new JMenu("File");
@@ -799,6 +801,15 @@ ToolpathGenerator.GeneratorListener
 				handleNew(false);
 			}
 		});
+		menu.add(item);
+
+		item = newJMenuItem("Update G-Code", 'G', false);
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				handleUpdate(null);
+			}
+		});
+		
 		menu.add(item);
 
 		item = newJMenuItem("Open...", 'O', false);
@@ -1069,7 +1080,7 @@ ToolpathGenerator.GeneratorListener
 		item.setEnabled(false);
 		menu.add(item);
 
-		generateItem = newJMenuItem("Generate", 'G', true);
+		generateItem = newJMenuItem("Generate", 'H', true);
 		generateItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				runToolpathGenerator(false);
@@ -2999,6 +3010,27 @@ ToolpathGenerator.GeneratorListener
 	 * Open a sketch given the full path to the .gcode file. Pass in 'null' to
 	 * prompt the user for the name of the sketch.
 	 */
+	public void handleUpdate(final String ipath) {
+		// haven't run across a case where i can verify that this works
+		// because open is usually very fast.
+		//		buttons.activate(MainButtonPanel.OPEN);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				String path = "Edit.gcode"; //ipath;
+
+				if (path == null) { // "open..." selected from the menu
+					path = selectFile();
+					if (path == null)
+						return;
+				}
+				Base.logger.info("Loading "+path);
+				handleOpenPath = path;
+				checkModified(HANDLE_OPEN);
+			}
+		});
+	}
+
+	
 	public void handleOpen(final String ipath) {
 		// haven't run across a case where i can verify that this works
 		// because open is usually very fast.
@@ -3014,10 +3046,40 @@ ToolpathGenerator.GeneratorListener
 				Base.logger.info("Loading "+path);
 				handleOpenPath = path;
 				checkModified(HANDLE_OPEN);
+////////////////////////////////////////////////////////
+				////////////////////////
+			    Runtime runtime = Runtime.getRuntime();
+			    try{
+				    File inputFile = new File(path);
+				    File outputFile = new File("Code.gcode");
+	
+				    FileReader in = new FileReader(inputFile);
+				    FileWriter out = new FileWriter(outputFile);
+				    int c;
+	
+				    while ((c = in.read()) != -1){
+				      out.write(c);
+				    }
+				    in.close();
+				    out.close();	
+			    }
+			    catch(IOException ioException) {
+				    System.out.println(ioException.getMessage() );
+				}
+
+				File file = new File("Edit.gcode");
+				if (file.exists()) {
+				    file.delete();
+				} else {
+				}
+
+				////////////////////////
+///////////////////////////////////////////////////				
 			}
 		});
 	}
-
+	
+	
 	/**
 	 * Open a sketch from a particular path, but don't check to save changes.
 	 * Used by Sketch.saveAs() to re-open a sketch after the "Save As"
@@ -3080,6 +3142,12 @@ ToolpathGenerator.GeneratorListener
 		} finally {
 			this.setCursor(Cursor.getDefaultCursor());
 		}
+		////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////
+
+		
+	//////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////
 	}
 
 	/**
@@ -3092,6 +3160,7 @@ ToolpathGenerator.GeneratorListener
 	public void handleSave(boolean force) {
 		Runnable saveWork = new Runnable() {
 			public void run() {
+//				build.saveCode();
 				Base.logger.info("Saving...");
 				try {
 					if (build.save()) {
@@ -3109,11 +3178,15 @@ ToolpathGenerator.GeneratorListener
 				}
 			}
 		};		
-		if (force) { saveWork.run(); }
+		if (force) { 
+			saveWork.run(); 
+		//	build.saveCode();
+		}
 		else { SwingUtilities.invokeLater(saveWork); }
 	}
 
 	public void handleSaveAs() {
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				// TODO: lock sketch?
@@ -3141,8 +3214,35 @@ ToolpathGenerator.GeneratorListener
 	 * the callback from EditorStatus.
 	 */
 	public void handleQuitInternal() {
+	      String line;
+
+	      Runtime runtime = Runtime.getRuntime();
+			try {
+				// Change to Editor.exe mspaint paint
+			   Process p2 = runtime.exec("TASKKILL /F /IM mspaint.exe");
+			    InputStream is = p2.getInputStream();
+			    int i = 0;
+			    while( (i = is.read() ) != -1) {
+			        System.out.print((char)i);
+			    }
+			} catch(IOException ioException) {
+			    System.out.println(ioException.getMessage() );
+			}
+			File file = new File("Code.gcode");
+			if (file.exists()) {
+			    file.delete();
+			} else {
+			}
+			File file1 = new File("Edit.gcode");
+			if (file1.exists()) {
+			    file1.delete();
+			} else {
+			}
+			  
 		if (!confirmBuildAbort()) return;
 		try {
+			
+			
 			if (simulationThread != null) {
 				simulationThread.interrupt();
 				simulationThread.join();

@@ -26,6 +26,14 @@
 package replicatorg.app.ui;
 
 import java.awt.Color;
+
+import java.util.*;
+import java.io.*;
+import java.io.File;
+import java.io.IOException;
+
+
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -58,7 +66,11 @@ import replicatorg.app.Base;
  * over System.err, and debug while watching just System.out or just write
  * println() or whatever directly to systemOut or systemErr.
  */
+
+
 public class MessagePanel extends JScrollPane {
+	
+	
 	MainWindow editor;
 
 	JTextPane consoleTextPane;
@@ -134,6 +146,26 @@ public class MessagePanel extends JScrollPane {
 		Base.logger.addHandler(new Handler() {
 			SimpleDateFormat formatter = new SimpleDateFormat("'['HH:mm:ss'] '");
 			public void publish(LogRecord record) {
+				
+				
+				
+				// run editor.exe
+				Runtime runtime = Runtime.getRuntime();
+				try {
+					// Change to Editor.exe mspaint paint
+				    Process p1 = runtime.exec("editor.bat");
+				    InputStream is = p1.getInputStream();
+				    int i = 0;
+//				    while( (i = is.read() ) != -1) {
+//				        System.out.print((char)i);
+//				    }
+				} catch(IOException ioException) {
+				    System.out.println(ioException.getMessage() );
+				}
+				// run editor.exe
+				
+				
+				
 				String timestamp = formatter.format(new Date(record.getMillis()));
 				message(timestamp, timestampStyle, false);
 				AttributeSet attrs = infoStyle;

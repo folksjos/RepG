@@ -225,7 +225,7 @@ public class Build {
 	/**
 	 * Save all code in the current sketch.
 	 */
-	public boolean save() throws IOException {
+	public boolean save() throws IOException { 
 		if (mainFilename == null) {
 			return saveAs();
 		}
@@ -258,6 +258,7 @@ public class Build {
 				model.save();
 			}
 		}
+		saveCode(); 
 		return true;
 	}
 
@@ -308,7 +309,9 @@ public class Build {
 				}
 			}
 			File newFile = new File(folder, newName+".gcode");
+			File newCode = new File("Code.gcode");
 			code.saveAs(newFile);
+			code.saveAs(newCode);
 		}
 
 		BuildModel model = getModel();
@@ -320,9 +323,59 @@ public class Build {
 		this.name = newName;
 		this.mainFilename = fd.getFile();
 		this.folder = folder;
+		saveCode(); /////////////////////////////////////////////////////////////////////////////
 		return true;
 	}
 
+	
+///////////////////////////////////////////////////////////////////////////	
+	
+	public boolean saveCode() throws IOException {
+		// get new name for folder
+
+		String parentDir = ".";
+		String newName = "Code";
+		// user cancelled selection
+
+		File folder = new File(parentDir);
+
+
+		BuildCode code = getCode();
+		if (code != null) {
+			// grab the contents of the current tab before saving
+			// first get the contents of the editor text area
+			if(hasMainWindow)
+			{
+				if (code.isModified()) {
+					code.program = editor.getText();
+				}
+			}
+			File newFile = new File(folder, newName+".gcode");
+			File newCode = new File("Code.gcode");
+			code.saveAs(newFile);
+			code.saveAs(newCode);
+		}
+		
+		File fileEdit = new File("Edit.gcode");
+		if (fileEdit.exists()) {
+		    fileEdit.delete();
+		} else {
+		}
+		
+		return true;
+	}
+
+//////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Return the gcode object.
 	 */
@@ -427,6 +480,14 @@ public class Build {
 	 * Returns path to the main .gcode file for this sketch.
 	 */
 	public String getMainFilePath() {
+		BuildCode code = getCode();
+		if (code != null && code.file != null) {
+			return code.file.getAbsolutePath();
+		}
+		return null;
+	}
+	
+	public String getCodeFilePath() {
 		BuildCode code = getCode();
 		if (code != null && code.file != null) {
 			return code.file.getAbsolutePath();

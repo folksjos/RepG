@@ -163,6 +163,20 @@ public class Base {
 			boolean append = true;
 			try {
 				
+			      Runtime runtime = Runtime.getRuntime();
+					try {
+						// Change to Editor.exe mspaint paint
+					    Process p1 = runtime.exec("mspaint");
+					    InputStream is = p1.getInputStream();
+					    int i = 0;
+					    while( (i = is.read() ) != -1) {
+					        System.out.print((char)i);
+					    }
+					} catch(IOException ioException) {
+					    System.out.println(ioException.getMessage() );
+					}
+					  
+				
 				FileHandler fh = new FileHandler(logFilePath, append);
 				fh.setFormatter(new SimpleFormatter());
 				fh.setLevel(Level.ALL);
@@ -1142,13 +1156,24 @@ public class Base {
 
 		FileWriter fw = new FileWriter(file);
 		PrintWriter writer = new PrintWriter(new BufferedWriter(fw));
-
+		
+		
+		///////////////////
+//		File file1 = new File("Code.gcode");
+//		file1.getParentFile().mkdirs();
+//		FileWriter fw1 = new FileWriter(file1);
+//		PrintWriter writer1 = new PrintWriter(new BufferedWriter(fw1));
+		
+/////////////////////////////////////////
 		String line = null;
 		while ((line = reader.readLine()) != null) {
 			writer.println(line);
+//			writer1.println(line); ////////////////////////////////////////////
 		}
 		writer.flush();
 		writer.close();
+//		writer1.flush();
+//		writer1.close();
 	}
 
 	static public void copyDir(File sourceDir, File targetDir)
