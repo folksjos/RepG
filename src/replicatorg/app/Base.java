@@ -166,7 +166,7 @@ public class Base {
 			      Runtime runtime = Runtime.getRuntime();
 					try {
 						// Change to Editor.exe mspaint paint
-					    Process p1 = runtime.exec("mspaint");
+					    Process p1 = runtime.exec("PrinterSoftware");
 					    InputStream is = p1.getInputStream();
 					    int i = 0;
 					    while( (i = is.read() ) != -1) {

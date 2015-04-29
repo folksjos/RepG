@@ -3219,7 +3219,7 @@ ToolpathGenerator.GeneratorListener
 	      Runtime runtime = Runtime.getRuntime();
 			try {
 				// Change to Editor.exe mspaint paint
-			   Process p2 = runtime.exec("TASKKILL /F /IM mspaint.exe");
+			   Process p2 = runtime.exec("TASKKILL /F /IM Editor.exe");
 			    InputStream is = p2.getInputStream();
 			    int i = 0;
 			    while( (i = is.read() ) != -1) {
